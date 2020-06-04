@@ -8,8 +8,6 @@ import com.gfs.domain.enums.GFSFileStatus;
 import com.gfs.domain.model.CurrentAccountLogin;
 import com.gfs.domain.repository.inf.GFSFileRepository;
 import com.gfs.domain.repository.inf.GFSSharedFileRepository;
-import com.gfs.domain.repository.inf.StudentAccountRepository;
-import com.gfs.domain.repository.inf.TutorAccountRepository;
 import com.gfs.domain.request.*;
 import com.gfs.domain.response.GFSFileResponse;
 import com.gfs.domain.response.GeneralSubmitResponse;
@@ -144,7 +142,6 @@ public class FileStorageServiceImpl implements FileStorageService {
         Account receiver = accountService.ifBeValidAccount(receiver_email);
 
         GFSSharedFile sharedFile = new GFSSharedFile(request, currentAccountLogin.getAccount().getAccount_id(), receiver.getAccount_id());
-
 
         return null;
     }
