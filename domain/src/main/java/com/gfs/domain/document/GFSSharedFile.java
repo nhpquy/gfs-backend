@@ -31,14 +31,12 @@ public class GFSSharedFile extends ObjectIdDocument {
      */
     @Indexed
     private String transaction_id;
-    private SharedFileMetaData meta_data;
+    private SharedFileMetaData tx_data;
 
     /**
      * Other Info
      */
     private String description;
-    private String storage_address;
-
 
     public GFSSharedFile(ShareFileRequest request, String owner_id, String receiver_id) {
         super();

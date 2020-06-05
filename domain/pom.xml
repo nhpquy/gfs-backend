@@ -231,5 +231,11 @@
             <version>1.6.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.beowulf-foundation.beowulf-java</groupId>
+            <artifactId>beowulfj-core</artifactId>
+            <version>${beowulfj.version}</version>
+        </dependency>
+
     </dependencies>
 </project>

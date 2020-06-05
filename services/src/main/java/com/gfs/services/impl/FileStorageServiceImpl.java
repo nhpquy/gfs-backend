@@ -1,6 +1,9 @@
 package com.gfs.services.impl;
 
+import com.beowulfchain.beowulfj.chain.CompletedTransaction;
+import com.gfs.domain.component.BWFClient;
 import com.gfs.domain.component.IPFSClient;
+import com.gfs.domain.config.model.SharedFileMetaData;
 import com.gfs.domain.document.Account;
 import com.gfs.domain.document.GFSFile;
 import com.gfs.domain.document.GFSSharedFile;
@@ -10,6 +13,7 @@ import com.gfs.domain.repository.inf.GFSFileRepository;
 import com.gfs.domain.repository.inf.GFSSharedFileRepository;
 import com.gfs.domain.request.*;
 import com.gfs.domain.response.GFSFileResponse;
+import com.gfs.domain.response.GFSSharedFileResponse;
 import com.gfs.domain.response.GeneralSubmitResponse;
 import com.gfs.domain.utils.ServiceExceptionUtils;
 import com.gfs.domain.utils.StringUtils;
@@ -39,6 +43,9 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     @Autowired
     IPFSClient ipfsClient;
+
+    @Autowired
+    BWFClient bwfClient;
 
     @Autowired
     AccountService accountService;
@@ -137,12 +144,23 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public Object shareFileOnPublicChain(@Valid ShareFileRequest request, CurrentAccountLogin currentAccountLogin) {
+    public GFSSharedFileResponse shareFileOnPublicChain(@Valid ShareFileRequest request, CurrentAccountLogin currentAccountLogin) {
         String receiver_email = StringUtils.handleEmailOrPhoneNumber(request.getReceiver_email());
         Account receiver = accountService.ifBeValidAccount(receiver_email);
 
         GFSSharedFile sharedFile = new GFSSharedFile(request, currentAccountLogin.getAccount().getAccount_id(), receiver.getAccount_id());
 
-        return null;
+        CompletedTransaction transaction = bwfClient.getTransaction(sharedFile.getTransaction_id());
+        SharedFileMetaData txData = SharedFileMetaData.parseDataFromTx(transaction);
+        sharedFile.setTx_data(txData);
+
+        GFSFile gfsFile = gfsFileRepository.findByHash_codeAndOwner_id(txData.getHash_code(), currentAccountLogin.getAccount().getAccount_id());
+        if (gfsFile == null) {
+            throw ServiceExceptionUtils.fileNotFound();
+        }
+
+        sharedFile = gfsSharedFileRepository.save(sharedFile);
+
+        return new GFSSharedFileResponse(sharedFile, currentAccountLogin.getAccount(), receiver);
     }
 }

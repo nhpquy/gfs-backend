@@ -6,6 +6,7 @@ import com.gfs.domain.enums.AccountProfile;
 import com.gfs.domain.model.CurrentAccountLogin;
 import com.gfs.domain.request.*;
 import com.gfs.domain.response.GFSFileResponse;
+import com.gfs.domain.response.GFSSharedFileResponse;
 import com.gfs.domain.response.GeneralSubmitResponse;
 import com.gfs.services.annotation.AccountAuthorized;
 import com.gfs.services.inf.FileStorageService;
@@ -77,10 +78,10 @@ public class RestStorageController {
 
     @ApiOperation(value = "Share File on Public-chain")
     @PostMapping(value = "/share")
-    public Object shareFileOnPublicChain(HttpServletRequest servletRequest,
-                                         @AccountAuthorized(profiles = {AccountProfile.student, AccountProfile.tutor})
-                                         @RequestHeader(name = "Authorization") CurrentAccountLogin currentAccountLogin,
-                                         @RequestBody ShareFileRequest request) {
+    public GFSSharedFileResponse shareFileOnPublicChain(HttpServletRequest servletRequest,
+                                                        @AccountAuthorized(profiles = {AccountProfile.student, AccountProfile.tutor})
+                                                        @RequestHeader(name = "Authorization") CurrentAccountLogin currentAccountLogin,
+                                                        @RequestBody ShareFileRequest request) {
         return fileStorageService.shareFileOnPublicChain(request, currentAccountLogin);
     }
 }

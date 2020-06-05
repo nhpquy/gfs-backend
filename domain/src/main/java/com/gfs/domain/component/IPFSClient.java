@@ -47,19 +47,18 @@ public class IPFSClient {
     @PostConstruct
     public void init() {
         try {
-            LoggerUtil.i(this, "Init IPFS Client");
+            LoggerUtil.i(TAG, "Init IPFS Client");
             config = configurationRepository.findByKey(IPFSServerConfig.IPFS_CONFIG_KEY, IPFSServerConfig.class);
             if (config == null) {
                 config = new IPFSServerConfig(host, port);
                 configurationRepository.save(config);
             }
             ipfs = new IPFS(config.getHost(), config.getPort());
-            LoggerUtil.i(this, String.format("Init IPFS Client successfully with [host: %s, port: %d]", ipfs.host, ipfs.port));
+            LoggerUtil.i(TAG, String.format("Init IPFS Client successfully with [host: %s, port: %d]", ipfs.host, ipfs.port));
 
         } catch (Exception e) {
-            LoggerUtil.exception(TAG, e, true);
             String msg = String.format("Error while connecting to IPFS with [host: %s, port: %d]", config.getHost(), config.getPort());
-            throw new ConnectionException(msg);
+            LoggerUtil.e(TAG, msg);
         }
     }
 
@@ -69,7 +68,7 @@ public class IPFSClient {
         boolean isRunning = true;
         try {
             ipfs.version();
-            LoggerUtil.d(this, "IPFS is still running ...");
+            LoggerUtil.d(TAG, "IPFS is still running ...");
         } catch (Exception e) {
             isRunning = false;
         } finally {
@@ -79,7 +78,7 @@ public class IPFSClient {
     }
 
     public void restart() {
-        LoggerUtil.d(this, "IPFS is restarting ...");
+        LoggerUtil.i(TAG, "IPFS is restarting ...");
         init();
     }
 

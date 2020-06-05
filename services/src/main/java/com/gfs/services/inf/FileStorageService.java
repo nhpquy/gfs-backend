@@ -3,6 +3,7 @@ package com.gfs.services.inf;
 import com.gfs.domain.model.CurrentAccountLogin;
 import com.gfs.domain.request.*;
 import com.gfs.domain.response.GFSFileResponse;
+import com.gfs.domain.response.GFSSharedFileResponse;
 import com.gfs.domain.response.GeneralSubmitResponse;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,5 +24,5 @@ public interface FileStorageService {
 
     public GeneralSubmitResponse removeGFSFile(@Valid RemoveGFSMetaDataRequest request, CurrentAccountLogin currentAccountLogin);
 
-    public Object shareFileOnPublicChain(@Valid ShareFileRequest request, CurrentAccountLogin currentAccountLogin);
+    public GFSSharedFileResponse shareFileOnPublicChain(@Valid ShareFileRequest request, CurrentAccountLogin currentAccountLogin);
 }

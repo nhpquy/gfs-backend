@@ -35,6 +35,7 @@
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <sonar.host.url>http://backend:9000</sonar.host.url>
         <java-ipfs-http-client.version>v1.2.2</java-ipfs-http-client.version>
+        <beowulfj.version>testnet-v0.0.1-gcb5a5b8-48</beowulfj.version>
     </properties>
 
     <build>
