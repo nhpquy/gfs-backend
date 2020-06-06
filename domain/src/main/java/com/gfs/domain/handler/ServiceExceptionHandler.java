@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 import java.io.IOException;
-import java.security.InvalidKeyException;
 
 @RestControllerAdvice()
 public class ServiceExceptionHandler {
@@ -131,9 +130,9 @@ public class ServiceExceptionHandler {
         return new ResponseEntity<>(exception.generateStringResponse(), header, exception.getHttpStatus());
     }
 
-    @ExceptionHandler({InvalidKeyException.class})
-    protected Object handleInvalidKeyException(HttpServletRequest request, InvalidKeyException e) {
-        ServiceException exception = ServiceExceptionUtils.invalidProcessInCourse(e.getMessage());
+    @ExceptionHandler({IllegalArgumentException.class})
+    protected Object handleIllegalArgumentException(HttpServletRequest request, IllegalArgumentException e) {
+        ServiceException exception = ServiceExceptionUtils.invalidParam(e.getMessage());
         return new ResponseEntity<>(exception.generateStringResponse(), header, exception.getHttpStatus());
     }
 

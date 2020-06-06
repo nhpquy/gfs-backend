@@ -21,7 +21,7 @@ public class SharedFileMetaData {
         try {
             return GsonSingleton.getInstance().fromJson(transaction.toString(), SharedFileMetaData.class);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Invalid properties of Shared file");
+            throw new IllegalArgumentException("Invalid properties of Shared file meta-data");
         }
     }
 }
