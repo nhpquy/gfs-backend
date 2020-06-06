@@ -13,6 +13,7 @@ import com.gfs.domain.repository.inf.GFSFileRepository;
 import com.gfs.domain.repository.inf.GFSSharedFileRepository;
 import com.gfs.domain.request.*;
 import com.gfs.domain.response.GFSFileResponse;
+import com.gfs.domain.response.GFSSharedFileDetailResponse;
 import com.gfs.domain.response.GFSSharedFileResponse;
 import com.gfs.domain.response.GeneralSubmitResponse;
 import com.gfs.domain.utils.ServiceExceptionUtils;
@@ -77,7 +78,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public List<GFSFileResponse> listOwnerFilePaging(ListOwnerFilesPagingRequest request, CurrentAccountLogin
+    public List<GFSFileResponse> listOwnerFilesPaging(ListOwnerFilesPagingRequest request, CurrentAccountLogin
             currentAccountLogin) {
         List<GFSFile> gfsFiles = gfsFileRepository.findByOwnerIdPaging(currentAccountLogin.getAccount().getAccount_id(), request);
         return gfsFiles.stream().map(GFSFileResponse::new).collect(Collectors.toList());
@@ -144,7 +145,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     }
 
     @Override
-    public GFSSharedFileResponse shareFileOnPublicChain(@Valid ShareFileRequest request, CurrentAccountLogin currentAccountLogin) {
+    public GFSSharedFileDetailResponse shareFileOnPublicChain(@Valid ShareFileRequest request, CurrentAccountLogin currentAccountLogin) {
         String receiver_email = StringUtils.handleEmailOrPhoneNumber(request.getReceiver_email());
         Account receiver = accountService.ifBeValidAccount(receiver_email);
 
@@ -161,6 +162,18 @@ public class FileStorageServiceImpl implements FileStorageService {
 
         sharedFile = gfsSharedFileRepository.save(sharedFile);
 
-        return new GFSSharedFileResponse(sharedFile, currentAccountLogin.getAccount(), receiver);
+        return new GFSSharedFileDetailResponse(sharedFile, currentAccountLogin.getAccount(), receiver);
+    }
+
+    @Override
+    public List<GFSSharedFileResponse> listSharedFilesPaging(ListSharedFilesPagingRequest request, CurrentAccountLogin currentAccountLogin) {
+        List<GFSSharedFile> gfsSharedFiles = gfsSharedFileRepository.findByOwnerIdPaging(currentAccountLogin.getAccount().getAccount_id(), request);
+        return gfsSharedFiles.stream().map(GFSSharedFileResponse::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<GFSSharedFileResponse> listReceivedFilesPaging(ListReceivedFilesPagingRequest request, CurrentAccountLogin currentAccountLogin) {
+        List<GFSSharedFile> gfsSharedFiles = gfsSharedFileRepository.findByReceiverIdPaging(currentAccountLogin.getAccount().getAccount_id(), request);
+        return gfsSharedFiles.stream().map(GFSSharedFileResponse::new).collect(Collectors.toList());
     }
 }

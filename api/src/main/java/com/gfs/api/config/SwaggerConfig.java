@@ -34,10 +34,9 @@ public class SwaggerConfig {
                         new Tag(SwaggerTag.login, "APIs for logging in/out"),
                         new Tag(SwaggerTag.password, "APIs for managing password"),
                         new Tag(SwaggerTag.account, "APIs for account"),
-                        new Tag(SwaggerTag.phone, "APIs for managing phone number"),
                         new Tag(SwaggerTag.tutor, "APIs for managing Tutor's profile"),
                         new Tag(SwaggerTag.student, "APIs for managing Student's profile"),
-                        new Tag(SwaggerTag.storage, "APIs for managing file"),
+                        new Tag(SwaggerTag.storage, "APIs for managing files"),
                         new Tag(SwaggerTag.up, "APIs for verifying deployment")
                 )
                 .apiInfo(swaggerApiInfo())

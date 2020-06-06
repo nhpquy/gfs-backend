@@ -24,7 +24,7 @@ public class SwaggerSecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
         UserDetails admin =
                 User.withUsername("admin")
-                        .password(scryptKdfPasswordEncoder.encode("Tutoric@116112"))
+                        .password(scryptKdfPasswordEncoder.encode("Gfs@116112"))
                         .roles("ADMIN")
                         .build();
 

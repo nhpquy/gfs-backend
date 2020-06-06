@@ -6,6 +6,7 @@ import com.gfs.domain.enums.AccountProfile;
 import com.gfs.domain.model.CurrentAccountLogin;
 import com.gfs.domain.request.*;
 import com.gfs.domain.response.GFSFileResponse;
+import com.gfs.domain.response.GFSSharedFileDetailResponse;
 import com.gfs.domain.response.GFSSharedFileResponse;
 import com.gfs.domain.response.GeneralSubmitResponse;
 import com.gfs.services.annotation.AccountAuthorized;
@@ -27,7 +28,7 @@ public class RestStorageController {
     FileStorageService fileStorageService;
 
     @ApiOperation(value = "Upload File")
-    @PostMapping(value = "/upload-file")
+    @PostMapping(value = "/upload")
     public GFSFileResponse uploadFile(HttpServletRequest servletRequest,
                                       @AccountAuthorized(profiles = {AccountProfile.student, AccountProfile.tutor})
                                       @RequestHeader(name = "Authorization") CurrentAccountLogin currentAccountLogin,
@@ -41,12 +42,12 @@ public class RestStorageController {
     }
 
     @ApiOperation(value = "List Owner files Paging")
-    @PostMapping(value = "/list")
+    @PostMapping(value = "/list-owner")
     public List<GFSFileResponse> listOwnerFilesPaging(HttpServletRequest servletRequest,
                                                       @AccountAuthorized(profiles = {AccountProfile.student, AccountProfile.tutor})
                                                       @RequestHeader(name = "Authorization") CurrentAccountLogin currentAccountLogin,
                                                       @RequestBody ListOwnerFilesPagingRequest request) {
-        return fileStorageService.listOwnerFilePaging(request, currentAccountLogin);
+        return fileStorageService.listOwnerFilesPaging(request, currentAccountLogin);
     }
 
     @ApiOperation(value = "Update meta-data")
@@ -78,10 +79,28 @@ public class RestStorageController {
 
     @ApiOperation(value = "Share File on Public-chain")
     @PostMapping(value = "/share")
-    public GFSSharedFileResponse shareFileOnPublicChain(HttpServletRequest servletRequest,
-                                                        @AccountAuthorized(profiles = {AccountProfile.student, AccountProfile.tutor})
-                                                        @RequestHeader(name = "Authorization") CurrentAccountLogin currentAccountLogin,
-                                                        @RequestBody ShareFileRequest request) {
+    public GFSSharedFileDetailResponse shareFileOnPublicChain(HttpServletRequest servletRequest,
+                                                              @AccountAuthorized(profiles = {AccountProfile.student, AccountProfile.tutor})
+                                                              @RequestHeader(name = "Authorization") CurrentAccountLogin currentAccountLogin,
+                                                              @RequestBody ShareFileRequest request) {
         return fileStorageService.shareFileOnPublicChain(request, currentAccountLogin);
+    }
+
+    @ApiOperation(value = "List shared files Paging")
+    @PostMapping(value = "/list-shared")
+    public List<GFSSharedFileResponse> listSharedFilesPaging(HttpServletRequest servletRequest,
+                                                             @AccountAuthorized(profiles = {AccountProfile.student, AccountProfile.tutor})
+                                                             @RequestHeader(name = "Authorization") CurrentAccountLogin currentAccountLogin,
+                                                             @RequestBody ListSharedFilesPagingRequest request) {
+        return fileStorageService.listSharedFilesPaging(request, currentAccountLogin);
+    }
+
+    @ApiOperation(value = "List received files Paging")
+    @PostMapping(value = "/list-received")
+    public List<GFSSharedFileResponse> listReceivedFilesPaging(HttpServletRequest servletRequest,
+                                                               @AccountAuthorized(profiles = {AccountProfile.student, AccountProfile.tutor})
+                                                               @RequestHeader(name = "Authorization") CurrentAccountLogin currentAccountLogin,
+                                                               @RequestBody ListReceivedFilesPagingRequest request) {
+        return fileStorageService.listReceivedFilesPaging(request, currentAccountLogin);
     }
 }

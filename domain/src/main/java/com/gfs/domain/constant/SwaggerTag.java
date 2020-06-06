@@ -7,7 +7,6 @@ public class SwaggerTag {
     public static final String login = "Log in/out";
     public static final String account = "Account";
     public static final String password = "Password Management";
-    public static final String phone = "Phone number Management";
     public static final String tutor = "Tutor profile Management";
     public static final String student = "Student profile Management";
     public static final String storage = "File Management";
