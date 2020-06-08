@@ -4,6 +4,7 @@ import com.beowulfchain.beowulfj.chain.CompletedTransaction;
 import com.gfs.domain.component.BWFClient;
 import com.gfs.domain.component.IPFSClient;
 import com.gfs.domain.config.model.SharedFileMetaData;
+import com.gfs.domain.constant.IPFSConstant;
 import com.gfs.domain.document.Account;
 import com.gfs.domain.document.GFSFile;
 import com.gfs.domain.document.GFSSharedFile;
@@ -65,13 +66,14 @@ public class FileStorageServiceImpl implements FileStorageService {
             throw ServiceExceptionUtils.fileExisted();
         }
         GFSFile newFile = new GFSFile(request, currentAccountLogin.getAccount().getAccount_id());
-        if (StringUtils.hasText(request.getName())) {
+        if (!StringUtils.hasText(request.getName())) {
             newFile.setFile_name(file.getOriginalFilename());
         }
         newFile.setHash_code(hashCode);
         newFile.setSize(addResult.largeSize.map(Long::valueOf).orElse(0L));
         newFile.setLinks(addResult.links.stream().map(l -> l.hash.toString()).collect(Collectors.toList()));
         newFile.setContent_type(file.getContentType());
+        newFile.setStorage_address(String.format(IPFSConstant.LINK_STORAGE, IPFSConstant.DEFAULT_IPFS_GATEWAY, hashCode));
         newFile = gfsFileRepository.save(newFile);
 
         return new GFSFileResponse(newFile);
@@ -129,7 +131,7 @@ public class FileStorageServiceImpl implements FileStorageService {
             throw ServiceExceptionUtils.fileNotFound();
         }
 
-        if (request.is_permanent()) {
+        if (request.isPermanent()) {
             gfsFileRepository.delete(gfsFile);
         } else {
             Map<String, Object> updateValues = new HashMap<>();
