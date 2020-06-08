@@ -258,10 +258,10 @@ public class AccountServiceImpl implements AccountService {
         String code = authorizedToken.getVerify_code();
         switch (sendEmailType) {
             case SES:
-                AmazonSESUtils.sendEmailVerifyEmailAddress(EmailConstant.TITLE_VALIDATION, email, code, time);
+                AmazonSESUtils.sendEmailVerifyEmailAddress(EmailConstant.TITLE_VALIDATION, email, time, code);
                 break;
             case Gmail:
-                GmailUtils.sendEmailVerifyEmailAddress(EmailConstant.TITLE_VALIDATION, email, code, time);
+                GmailUtils.sendEmailVerifyEmailAddress(EmailConstant.TITLE_VALIDATION, email, time, code);
                 break;
         }
     }
