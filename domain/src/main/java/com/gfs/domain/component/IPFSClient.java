@@ -55,7 +55,7 @@ public class IPFSClient {
             config = configurationRepository.findByKey(IPFSServerConfig.IPFS_CONFIG_KEY, IPFSServerConfig.class);
             if (config == null) {
                 config = new IPFSServerConfig(host, port, gatewayHost, gatewayPort);
-                configurationRepository.save(config);
+                config = configurationRepository.save(config);
             }
             ipfs = new IPFS(config.getHost(), config.getPort());
             LoggerUtil.i(TAG, String.format("Init IPFS Client successfully with [host: %s, port: %d]", ipfs.host, ipfs.port));

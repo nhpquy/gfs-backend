@@ -37,7 +37,7 @@ public class IPFSServerConfig extends Configuration {
         this.setKey(IPFS_CONFIG_KEY);
         this.setHost(StringUtils.hasText(host) ? host : DEFAULT_HOST);
         this.setPort(port != null ? port : DEFAULT_PORT);
-        this.setGatewayHost(StringUtils.hasText(gatewayHost) ? host : DEFAULT_HOST);
+        this.setGatewayHost(StringUtils.hasText(gatewayHost) ? gatewayHost : DEFAULT_HOST);
         this.setGatewayPort(gatewayPort != null ? gatewayPort : DEFAULT_GATEWAY_PORT);
         this.setMax_pool(DEFAULT_THREAD_POOL);
         this.setTime_out(DEFAULT_TIMEOUT);
