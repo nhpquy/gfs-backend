@@ -2,9 +2,6 @@ package com.gfs.domain.constant;
 
 import java.util.HashMap;
 
-/**
- * @author KhoaVT
- */
 public class VNPayConstant {
 
     public static final String VNPAY_HASH_SECRET_INIT_VECTOR = "khagsdasgda67342";

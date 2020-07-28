@@ -2,13 +2,6 @@ package com.gfs.domain.utils;
 
 import java.security.MessageDigest;
 
-/**
- * This class provides APIs to interact with MD5 hash function
- *
- * @author Khoa Mac Tu - khoavtvn1991@yahoo.com.vn
- * @version 11/24/2015
- */
-
 public class MD5 {
 
     /**

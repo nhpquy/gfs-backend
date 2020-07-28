@@ -1,8 +1,5 @@
 package com.gfs.domain.constant;
 
-/**
- * @author KhoaVT
- */
 public class PaymentConstant {
 
     public static final String PAYMENT_TYPE_VAULT = "vault";

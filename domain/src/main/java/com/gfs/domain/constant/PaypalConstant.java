@@ -1,8 +1,5 @@
 package com.gfs.domain.constant;
 
-/**
- * @author KhoaVT
- */
 public class PaypalConstant {
 
     public static final String PAYMENT_METHOD_BEOWULF_WALLET = "beowulf_wallet";
