@@ -73,7 +73,12 @@ public class FileStorageServiceImpl implements FileStorageService {
         newFile.setSize(addResult.largeSize.map(Long::valueOf).orElse(0L));
         newFile.setLinks(addResult.links.stream().map(l -> l.hash.toString()).collect(Collectors.toList()));
         newFile.setContent_type(file.getContentType());
-        newFile.setStorage_address(String.format(IPFSConstant.LINK_STORAGE, IPFSConstant.DEFAULT_IPFS_GATEWAY, hashCode));
+        newFile.setStorage_address(String.format(
+                IPFSConstant.LINK_STORAGE,
+                ipfsClient.getConfig().getGatewayHost(),
+                ipfsClient.getConfig().getGatewayPort(),
+                hashCode)
+        );
         newFile = gfsFileRepository.save(newFile);
 
         return new GFSFileResponse(newFile);

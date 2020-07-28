@@ -36,8 +36,12 @@ public class IPFSClient {
     private String host;
     @Value("${ipfs.port}")
     private Integer port;
-    private IPFSServerConfig config;
+    @Value("${ipfs.gateway.host}")
+    private String gatewayHost;
+    @Value("${ipfs.gateway.port}")
+    private Integer gatewayPort;
 
+    private IPFSServerConfig config;
     private IPFS ipfs;
     private ExecutorService pool;
 
@@ -50,7 +54,7 @@ public class IPFSClient {
             LoggerUtil.i(TAG, "Init IPFS Client");
             config = configurationRepository.findByKey(IPFSServerConfig.IPFS_CONFIG_KEY, IPFSServerConfig.class);
             if (config == null) {
-                config = new IPFSServerConfig(host, port);
+                config = new IPFSServerConfig(host, port, gatewayHost, gatewayPort);
                 configurationRepository.save(config);
             }
             ipfs = new IPFS(config.getHost(), config.getPort());
@@ -87,6 +91,10 @@ public class IPFSClient {
             init();
         }
         return ipfs;
+    }
+
+    public IPFSServerConfig getConfig() {
+        return config;
     }
 
     public MerkleNode createContent(byte[] content) {

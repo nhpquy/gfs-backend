@@ -1,10 +1,3 @@
-/*
- * Copyright (C) Tutorica LLC. - All Rights Reserved 2020.
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Written by trongcauta <trongcauhcmus@gmail.com>
- */
-
 package com.gfs.domain.config;
 
 import com.gfs.domain.constant.CollectionName;
