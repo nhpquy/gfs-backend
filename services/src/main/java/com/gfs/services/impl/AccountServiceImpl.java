@@ -195,12 +195,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account ifBeValidAccount(String email) {
-        Account acocunt = studentAccountRepository.findByEmail(email);
-        if (acocunt == null)
-            acocunt = tutorAccountRepository.findByEmail(email);
-        if (acocunt == null)
+        Account account = studentAccountRepository.findByEmail(email);
+        if (account == null)
+            account = tutorAccountRepository.findByEmail(email);
+        if (account == null)
             throw ServiceExceptionUtils.accountNotFound();
-        return acocunt;
+        return account;
     }
 
     /**

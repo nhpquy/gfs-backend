@@ -13,5 +13,5 @@ import javax.validation.Valid;
 public interface StudentAccountService {
     public AccountLoginResponse registerAccount(@Valid RegisterAccountRequest request) throws Exception;
 
-    public StudentAccountInfoResponse updateStudentProfile(StudentAccount studentAccount, UpdateStudentProfileRequest request) throws Exception;
+    public StudentAccountInfoResponse updateStudentProfile(StudentAccount studentAccount, @Valid UpdateStudentProfileRequest request) throws Exception;
 }

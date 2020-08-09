@@ -39,7 +39,6 @@ public class StudentAccountServiceImpl implements StudentAccountService {
     @Autowired
     AccountAuthorizationService accountAuthorizationService;
 
-
     @Autowired
     TutorAccountRepository tutorAccountRepository;
 
