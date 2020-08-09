@@ -37,6 +37,7 @@ public class SwaggerConfig {
                         new Tag(SwaggerTag.tutor, "APIs for managing Tutor's profile"),
                         new Tag(SwaggerTag.student, "APIs for managing Student's profile"),
                         new Tag(SwaggerTag.storage, "APIs for managing files"),
+                        new Tag(SwaggerTag.article_management, "APIs for managing articles of Tutor"),
                         new Tag(SwaggerTag.up, "APIs for verifying deployment")
                 )
                 .apiInfo(swaggerApiInfo())

@@ -184,6 +184,9 @@ public class ServiceExceptionUtils {
 
     private static final String ERROR_FILE_NOT_FOUND = "404009";
     private static final String DESC_ERROR_FILE_NOT_FOUND = "File not found";
+
+    private static final String ERROR_ARTICLE_NOT_FOUND = "404012";
+    private static final String DESC_ERROR_ARTICLE_NOT_FOUND = "Certificate template not found";
     /**
      * End 404 zone
      **/
@@ -208,6 +211,9 @@ public class ServiceExceptionUtils {
 
     private static final String ERROR_TUTOR_ALREADY_BANNED = "406003";
     private static final String DESC_ERROR_TUTOR_ALREADY_BANNED = "Tutor has already been banned";
+
+    private static final String ERROR_PERMISSION_DENIED = "406020";
+    private static final String DESC_ERROR_PERMISSION_DENIED = "Permission denied";
     /** End 406 zone **/
 
     /**
@@ -501,5 +507,14 @@ public class ServiceExceptionUtils {
 
     public static ServiceException fileExisted() {
         return new ServiceException(ERROR_FILE_EXISTED, DESC_ERROR_FILE_EXISTED, HttpStatus.BAD_REQUEST);
+    }
+
+    public static ServiceException permissionDenied() {
+        return new ServiceException(ERROR_PERMISSION_DENIED, DESC_ERROR_PERMISSION_DENIED, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+
+    public static ServiceException articleNotFound() {
+        return new ServiceException(ERROR_ARTICLE_NOT_FOUND, DESC_ERROR_ARTICLE_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 }

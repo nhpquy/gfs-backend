@@ -7,7 +7,6 @@ import com.gfs.domain.utils.StringUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,10 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @Document(collection = CollectionName.GFS_FILE)
-@CompoundIndexes(value = {
-        @CompoundIndex(def = "{'hash_code': 1}"),
-        @CompoundIndex(def = "{'owner_id': 1}"),
-})
+@CompoundIndex(def = "{'hash_code': 1, 'owner_id': 1}", unique = true)
 public class GFSFile extends ObjectIdDocument {
 
     /**

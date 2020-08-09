@@ -85,6 +85,14 @@ public class ApplicationProperties {
     @Value("${gmail.pwd}")
     private String gmailPwd;
 
+    /**
+     * Secret declare
+     */
+    @Value("${crypto.aes.secretkey:1234567812345678}")
+    private String crypto_aes_secretKey;
+    @Value("${crypto.aes.initVector:1234567812345678}")
+    private String crypto_aes_initVector;
+
     public ApplicationProperties() {
         instance = this;
     }
@@ -175,5 +183,13 @@ public class ApplicationProperties {
 
     public static String getGmailProjectLogo() {
         return instance.gmailProjectLogo;
+    }
+
+    public static String getCrypto_aes_secretKey() {
+        return instance.crypto_aes_secretKey;
+    }
+
+    public static String getCrypto_aes_initVector() {
+        return instance.crypto_aes_initVector;
     }
 }
