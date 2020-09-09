@@ -41,8 +41,8 @@ public class AccountLoginResponse extends BaseResponse {
                 token.getToken_type(),
                 account.getEmail(),
                 token.getCurrent_requirement() == null ? CurrentLoginRequirement.none : token.getCurrent_requirement(),
-                joinedOrg.getOrg_id(),
-                joinedOrg.getRole()
+                joinedOrg != null ? joinedOrg.getOrg_id() : null,
+                joinedOrg != null ? joinedOrg.getRole() : null
         );
     }
 

@@ -9,15 +9,11 @@ import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.HashMap;
 
 @Component
-@EnableScheduling
 public class SmackClient {
     private static final String TAG = SmackClient.class.getName();
 
@@ -32,7 +28,6 @@ public class SmackClient {
     @Autowired
     ConfigurationRepository configurationRepository;
 
-    @PostConstruct
     public void init() {
         if (!enable) {
             LoggerUtil.w(TAG, "Smack Message Client was disabled");
@@ -108,7 +103,6 @@ public class SmackClient {
         }
     }
 
-    @Scheduled(initialDelay = 60000, fixedRate = 60000)
     public void refresh() {
         XmppConfig xmppConfig = configurationRepository.findByKey(XmppConfig.XMPP_CONFIG_KEY, XmppConfig.class);
         if (xmppConfig != null) {

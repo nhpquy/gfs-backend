@@ -13,11 +13,12 @@ import io.ipfs.api.NamedStreamable;
 import io.ipfs.multihash.Multihash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -48,7 +49,7 @@ public class IPFSClient {
     @Autowired
     private ConfigurationRepository configurationRepository;
 
-    @PostConstruct
+    @EventListener(ApplicationReadyEvent.class)
     public void init() {
         try {
             LoggerUtil.i(TAG, "Init IPFS Client");
