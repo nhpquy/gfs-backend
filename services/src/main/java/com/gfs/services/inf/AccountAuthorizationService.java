@@ -28,4 +28,6 @@ public interface AccountAuthorizationService {
     public CurrentTutorLogin loadTutor(String authorization);
 
     public GeneralSubmitResponse logout(AccountAuthorizedToken authorizedToken);
+
+    public AccountLoginResponse switchOrganizationContext(AccountAuthorizedToken authorizedToken, String orgId) throws Exception;
 }

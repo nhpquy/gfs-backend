@@ -186,7 +186,13 @@ public class ServiceExceptionUtils {
     private static final String DESC_ERROR_FILE_NOT_FOUND = "File not found";
 
     private static final String ERROR_ARTICLE_NOT_FOUND = "404012";
-    private static final String DESC_ERROR_ARTICLE_NOT_FOUND = "Certificate template not found";
+    private static final String DESC_ERROR_ARTICLE_NOT_FOUND = "Article not found";
+
+    private static final String error_WALLET_NOT_FOUND = "404013";
+    private static final String desc_error_WALLET_NOT_FOUND = "Wallet not found";
+
+    private static final String ERROR_ORG_NOT_FOUND = "404014";
+    private static final String DESC_ERROR_ORG_NOT_FOUND = "Organization not found";
     /**
      * End 404 zone
      **/
@@ -214,6 +220,45 @@ public class ServiceExceptionUtils {
 
     private static final String ERROR_PERMISSION_DENIED = "406020";
     private static final String DESC_ERROR_PERMISSION_DENIED = "Permission denied";
+
+    private static final String ERROR_ACCOUNT_ALREADY_OWNED_ORG = "406010";
+    private static final String DESC_ERROR_ACCOUNT_ALREADY_OWNED_ORG = "Account has already owned one Organization";
+
+    public static final String ERROR_SUBDOMAIN_HAS_BEEN_REGISTERED = "406011";
+    public static final String DESC_ERROR_SUBDOMAIN_HAS_BEEN_REGISTERED = "SubDomain has been registered";
+
+    private static final String ERROR_ACCOUNT_ALREADY_INVITED = "406012";
+    private static final String DESC_ERROR_ACCOUNT_ALREADY_INVITED = "Partner has already been invited";
+
+    private static final String ERROR_ACCOUNT_NOT_INVITED = "406013";
+    private static final String DESC_ERROR_ACCOUNT_NOT_INVITED = "Partner has not been invited";
+
+    private static final String ERROR_ACCOUNT_ALREADY_ACCEPTED = "406014";
+    private static final String DESC_ERROR_ACCOUNT_ALREADY_ACCEPTED = "Partner has already been accepted invitation";
+
+    private static final String ERROR_ACCOUNT_ALREADY_DENIED = "406015";
+    private static final String DESC_ERROR_ACCOUNT_ALREADY_DENIED = "Partner has already been denied invitation";
+
+    public static final String ERROR_ACCOUNT_ALREADY_KICKED = "406016";
+    public static final String DESC_ERROR_ACCOUNT_ALREADY_KICKED = "Partner has already been kicked out of Organization";
+
+    public static final String ERROR_ACCOUNT_NOT_ACCEPTED = "406017";
+    public static final String DESC_ERROR_ACCOUNT_NOT_ACCEPTED = "Partner has not accepted invitation";
+
+    private static final String ERROR_BWF_WALLET_EXISTED = "406018";
+    private static final String DESC_ERROR_BWF_WALLET_EXISTED = "Beowulf Account already existed";
+
+    private static final String ERROR_MAXIMUM_BWF_ACCOUNT_CREATED = "406019";
+    private static final String DESC_ERROR_MAXIMUM_BWF_ACCOUNT_CREATED = "Reach limitation Beowulf Accounts";
+
+    public static final String ERROR_ORG_ALREADY_SWITCHED = "406020";
+    public static final String DESC_ERROR_ORG_ALREADY_SWITCHED = "Organization context has already been switched";
+
+    public static final String ERROR_WALLET_HAS_NOT_SUFFICIENT_FOUND = "406021";
+    public static final String DESC_ERROR_WALLET_HAS_NOT_SUFFICIENT_FOUND = "Insufficient fund for transfer fee";
+
+    public static final String ERROR_SUBDOMAIN_HAS_BEEN_APPROVED = "406022";
+    public static final String DESC_ERROR_SUBDOMAIN_HAS_BEEN_APPROVED = "SubDomain has already been approved";
     /** End 406 zone **/
 
     /**
@@ -513,8 +558,67 @@ public class ServiceExceptionUtils {
         return new ServiceException(ERROR_PERMISSION_DENIED, DESC_ERROR_PERMISSION_DENIED, HttpStatus.NOT_ACCEPTABLE);
     }
 
-
     public static ServiceException articleNotFound() {
         return new ServiceException(ERROR_ARTICLE_NOT_FOUND, DESC_ERROR_ARTICLE_NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
+
+    public static ServiceException organizationNotFound() {
+        return new ServiceException(ERROR_ORG_NOT_FOUND, DESC_ERROR_ORG_NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
+
+    public static ServiceException accountAlreadyOwnedOrg() {
+        return new ServiceException(ERROR_ACCOUNT_ALREADY_OWNED_ORG, DESC_ERROR_ACCOUNT_ALREADY_OWNED_ORG, HttpStatus.BAD_REQUEST);
+    }
+
+    public static ServiceException subDomainHasBeenRegistered() {
+        return new ServiceException(ERROR_SUBDOMAIN_HAS_BEEN_REGISTERED, DESC_ERROR_SUBDOMAIN_HAS_BEEN_REGISTERED, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    public static ServiceException subDomainHasBeenApproved() {
+        return new ServiceException(ERROR_SUBDOMAIN_HAS_BEEN_APPROVED, DESC_ERROR_SUBDOMAIN_HAS_BEEN_APPROVED, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    public static ServiceException accountAlreadyInvited() {
+        return new ServiceException(ERROR_ACCOUNT_ALREADY_INVITED, DESC_ERROR_ACCOUNT_ALREADY_INVITED, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    public static ServiceException accountAlreadyAccepted() {
+        return new ServiceException(ERROR_ACCOUNT_ALREADY_ACCEPTED, DESC_ERROR_ACCOUNT_ALREADY_ACCEPTED, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    public static ServiceException accountAlreadyDenied() {
+        return new ServiceException(ERROR_ACCOUNT_ALREADY_DENIED, DESC_ERROR_ACCOUNT_ALREADY_DENIED, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    public static ServiceException accountAlreadyKicked() {
+        return new ServiceException(ERROR_ACCOUNT_ALREADY_KICKED, DESC_ERROR_ACCOUNT_ALREADY_KICKED, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    public static ServiceException accountNotInvited() {
+        return new ServiceException(ERROR_ACCOUNT_NOT_INVITED, DESC_ERROR_ACCOUNT_NOT_INVITED, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    public static ServiceException accountNotAccepted() {
+        return new ServiceException(ERROR_ACCOUNT_NOT_ACCEPTED, DESC_ERROR_ACCOUNT_NOT_ACCEPTED, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    public static ServiceException bwfWalletExisted() {
+        return new ServiceException(ERROR_BWF_WALLET_EXISTED, DESC_ERROR_BWF_WALLET_EXISTED, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    public static ServiceException maximumBwfAccountCreated() {
+        return new ServiceException(ERROR_MAXIMUM_BWF_ACCOUNT_CREATED, DESC_ERROR_MAXIMUM_BWF_ACCOUNT_CREATED, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    public static ServiceException organizationAlreadySwitched() {
+        return new ServiceException(ERROR_ORG_ALREADY_SWITCHED, DESC_ERROR_ORG_ALREADY_SWITCHED, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    public static ServiceException walletNotFound() {
+        return new ServiceException(error_WALLET_NOT_FOUND, desc_error_WALLET_NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
+
+    public static ServiceException notSufficientFund() {
+        return new ServiceException(ERROR_WALLET_HAS_NOT_SUFFICIENT_FOUND, DESC_ERROR_WALLET_HAS_NOT_SUFFICIENT_FOUND, HttpStatus.NOT_ACCEPTABLE);
     }
 }

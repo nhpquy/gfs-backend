@@ -3,6 +3,7 @@ package com.gfs.domain.document;
 import com.gfs.domain.constant.CollectionName;
 import com.gfs.domain.enums.*;
 import com.gfs.domain.model.jwt.JwtPayload;
+import com.gfs.domain.request.LoginRequest;
 import com.gfs.domain.utils.BasicAccessTokenUtils;
 import com.gfs.domain.utils.JWTAccessTokenUtils;
 import lombok.Data;
@@ -10,6 +11,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Document(collection = CollectionName.ACCOUNT_AUTH_TOKENS)
@@ -57,5 +59,21 @@ public class AccountAuthorizedToken extends ObjectIdDocument {
             default:
                 throw new Exception("Unknown token type");
         }
+    }
+
+    public static AccountAuthorizedToken generateLoginSuccessfullyToken(Account account, LoginRequest request, AccountLoginType loginType) {
+        AccountAuthorizedToken authorizedToken = new AccountAuthorizedToken();
+        authorizedToken.setAccount_id(account.getAccount_id());
+        authorizedToken.setApp_platform(request.getApp_platform());
+        authorizedToken.setApp_version(request.getApp_version());
+        authorizedToken.setAuthorized(true);
+        authorizedToken.setExpire_seconds(TimeUnit.DAYS.toSeconds(30));
+        authorizedToken.setLogin_type(loginType);
+        authorizedToken.setProfile_type(account.getProfile_type());
+        authorizedToken.setToken(UUID.randomUUID().toString());
+        authorizedToken.setToken_type(AuthorizeTokenType.Basic);
+        authorizedToken.setUser_agent(request.getUser_agent());
+        authorizedToken.setUser_token(null);
+        return authorizedToken;
     }
 }

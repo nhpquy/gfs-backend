@@ -77,13 +77,13 @@ public class TutorManagementServiceImpl implements TutorManagementService {
         if (tutorAccount == null)
             throw ServiceExceptionUtils.accountNotFound();
 
-        if (AccountStatus.deactive == tutorAccount.getAccount_status())
+        if (AccountStatus.deactivated == tutorAccount.getAccount_status())
             throw ServiceExceptionUtils.tutorAlreadyDeactive();
 
         if (AccountStatus.verifying == tutorAccount.getAccount_status())
             throw ServiceExceptionUtils.accountNotActivated();
 
-        TutorAccount tutorAccountUpdated = tutorAccountRepository.updateAccountDetail(tutorAccount.getAccount_id(), Collections.singletonMap("account_status", AccountStatus.deactive));
+        TutorAccount tutorAccountUpdated = tutorAccountRepository.updateAccountDetail(tutorAccount.getAccount_id(), Collections.singletonMap("account_status", AccountStatus.deactivated));
         accountAuthorizedTokenRepository.deleteOtherToken(tutorAccount.getAccount_id(), null);
         adminActivityService.newActivity(currentAdminLogin.getAccount(), AdminAction.deactive_tutor, tutorAccount.getAccount_id(), request.getNote(), null, tutorAccount, tutorAccountUpdated);
         return new AdminTutorAccountInfoResponse(tutorAccountUpdated);

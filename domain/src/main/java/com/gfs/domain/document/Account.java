@@ -56,6 +56,11 @@ public class Account extends ObjectIdDocument {
     private VerificationToken verify_email_token;
     private VerificationToken change_phone_token;
 
+    /**
+     * Organization Info
+     */
+    private String current_org_id;
+
 
     public Account(Account account) {
         setProfile_type(account.getProfile_type());

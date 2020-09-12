@@ -1,10 +1,7 @@
 package com.gfs.services.impl;
 
 import com.gfs.domain.component.ScryptKdfPasswordEncoder;
-import com.gfs.domain.document.Account;
-import com.gfs.domain.document.AccountAuthorizedToken;
-import com.gfs.domain.document.StudentAccount;
-import com.gfs.domain.document.TutorAccount;
+import com.gfs.domain.document.*;
 import com.gfs.domain.enums.*;
 import com.gfs.domain.exception.ServiceException;
 import com.gfs.domain.model.AuthorizationData;
@@ -12,9 +9,7 @@ import com.gfs.domain.model.CurrentAccountLogin;
 import com.gfs.domain.model.CurrentStudentLogin;
 import com.gfs.domain.model.CurrentTutorLogin;
 import com.gfs.domain.model.jwt.JwtAccessToken;
-import com.gfs.domain.repository.inf.AccountAuthorizedTokenRepository;
-import com.gfs.domain.repository.inf.StudentAccountRepository;
-import com.gfs.domain.repository.inf.TutorAccountRepository;
+import com.gfs.domain.repository.inf.*;
 import com.gfs.domain.request.AccountLoginRequest;
 import com.gfs.domain.request.LoginRequest;
 import com.gfs.domain.response.AccountLoginResponse;
@@ -27,8 +22,7 @@ import com.gfs.services.inf.AccountAuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
+import java.util.Collections;
 
 @Service
 public class AccountAuthorizationServiceImpl implements AccountAuthorizationService {
@@ -40,6 +34,12 @@ public class AccountAuthorizationServiceImpl implements AccountAuthorizationServ
 
     @Autowired
     TutorAccountRepository tutorAccountRepository;
+
+    @Autowired
+    OrganizationRepository organizationRepository;
+
+    @Autowired
+    JoinedOrganizationRepository joinedOrganizationRepository;
 
     @Autowired
     ScryptKdfPasswordEncoder scryptKdfPasswordEncoder;
@@ -66,18 +66,7 @@ public class AccountAuthorizationServiceImpl implements AccountAuthorizationServ
 
     @Override
     public AccountLoginResponse loginSuccessfully(Account account, LoginRequest request, AccountLoginType loginType) throws Exception {
-        AccountAuthorizedToken authorizedToken = new AccountAuthorizedToken();
-        authorizedToken.setAccount_id(account.getAccount_id());
-        authorizedToken.setApp_platform(request.getApp_platform());
-        authorizedToken.setApp_version(request.getApp_version());
-        authorizedToken.setAuthorized(true);
-        authorizedToken.setExpire_seconds(TimeUnit.DAYS.toSeconds(30));
-        authorizedToken.setLogin_type(loginType);
-        authorizedToken.setProfile_type(account.getProfile_type());
-        authorizedToken.setToken(UUID.randomUUID().toString());
-        authorizedToken.setToken_type(AuthorizeTokenType.Basic);
-        authorizedToken.setUser_agent(request.getUser_agent());
-        authorizedToken.setUser_token(null);
+        AccountAuthorizedToken authorizedToken = AccountAuthorizedToken.generateLoginSuccessfullyToken(account, request, loginType);
 
         if (AccountStatus.activated == account.getAccount_status() || AccountStatus.approved == account.getAccount_status()) {
             authorizedToken.setCurrent_requirement(CurrentLoginRequirement.none);
@@ -88,7 +77,16 @@ public class AccountAuthorizationServiceImpl implements AccountAuthorizationServ
         } else throw ServiceExceptionUtils.unAuthorize();
 
         authorizedToken = accountAuthorizedTokenRepository.save(authorizedToken);
-        return new AccountLoginResponse(account, authorizedToken);
+
+        switch (account.getProfile_type()) {
+            case student:
+                return new AccountLoginResponse(account, authorizedToken);
+            case tutor:
+                JoinedOrganization joinedOrg = joinedOrganizationRepository.findByOrg_idAndAccount_id(account.getCurrent_org_id(), account.getAccount_id());
+                return new AccountLoginResponse(account, authorizedToken, joinedOrg);
+            default:
+                throw ServiceExceptionUtils.unAuthorize();
+        }
     }
 
     @Override
@@ -166,7 +164,9 @@ public class AccountAuthorizationServiceImpl implements AccountAuthorizationServ
             if (!account.getAccount_id().equals(data.getId()))
                 throw ServiceExceptionUtils.unAuthorize();
 
-            return new CurrentTutorLogin(account, authorizedToken);
+            JoinedOrganization joinedOrg = joinedOrganizationRepository.findByOrg_idAndAccount_id(account.getCurrent_org_id(), account.getAccount_id());
+
+            return new CurrentTutorLogin(account, authorizedToken, joinedOrg);
         } catch (ServiceException e) {
             return new CurrentTutorLogin(e);
         } catch (Exception e) {
@@ -178,6 +178,37 @@ public class AccountAuthorizationServiceImpl implements AccountAuthorizationServ
     public GeneralSubmitResponse logout(AccountAuthorizedToken authorizedToken) {
         accountAuthorizedTokenRepository.delete(authorizedToken);
         return new GeneralSubmitResponse(true);
+    }
+
+    @Override
+    public AccountLoginResponse switchOrganizationContext(AccountAuthorizedToken authorizedToken, String orgId) throws Exception {
+        TutorAccount account = tutorAccountRepository.findByAccountId(authorizedToken.getAccount_id());
+
+        if (account == null)
+            throw ServiceExceptionUtils.unAuthorize();
+
+        if (orgId.equals(account.getCurrent_org_id())) {
+            throw ServiceExceptionUtils.organizationAlreadySwitched();
+        }
+
+        JoinedOrganization joinedOrg = joinedOrganizationRepository.findByOrg_idAndAccount_id(orgId, account.getAccount_id());
+
+        if (joinedOrg == null) {
+            throw ServiceExceptionUtils.accountNotInvited();
+        }
+
+        switch (joinedOrg.getStatus()) {
+            case pending:
+                throw ServiceExceptionUtils.accountNotAccepted();
+            case denied:
+                throw ServiceExceptionUtils.accountAlreadyDenied();
+            case kicked:
+                throw ServiceExceptionUtils.accountAlreadyKicked();
+        }
+
+        account = tutorAccountRepository.updateAccountDetail(account.getAccount_id(), Collections.singletonMap("current_org_id", orgId));
+
+        return new AccountLoginResponse(account, authorizedToken, joinedOrg);
     }
 
     /**

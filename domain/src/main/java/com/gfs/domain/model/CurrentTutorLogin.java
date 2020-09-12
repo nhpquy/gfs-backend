@@ -1,7 +1,7 @@
 package com.gfs.domain.model;
 
-import com.gfs.domain.document.Account;
 import com.gfs.domain.document.AccountAuthorizedToken;
+import com.gfs.domain.document.JoinedOrganization;
 import com.gfs.domain.document.TutorAccount;
 import com.gfs.domain.exception.ServiceException;
 import lombok.Data;
@@ -9,12 +9,9 @@ import lombok.Data;
 @Data
 public class CurrentTutorLogin extends CurrentAccountLogin {
     private TutorAccount tutorAccount;
+    private JoinedOrganization joinedOrg;
 
     public CurrentTutorLogin() {
-    }
-
-    public CurrentTutorLogin(Account account, AccountAuthorizedToken authorizedToken) {
-        super(account, authorizedToken);
     }
 
     public CurrentTutorLogin(ServiceException e) {
@@ -25,13 +22,9 @@ public class CurrentTutorLogin extends CurrentAccountLogin {
         this.tutorAccount = tutorAccount;
     }
 
-    public CurrentTutorLogin(TutorAccount tutorAccount, AccountAuthorizedToken authorizedToken) {
+    public CurrentTutorLogin(TutorAccount tutorAccount, AccountAuthorizedToken authorizedToken, JoinedOrganization joinedOrg) {
         super(tutorAccount, authorizedToken);
         this.tutorAccount = tutorAccount;
-    }
-
-    public CurrentTutorLogin(ServiceException e, TutorAccount tutorAccount) {
-        super(e);
-        this.tutorAccount = tutorAccount;
+        this.joinedOrg = joinedOrg;
     }
 }
