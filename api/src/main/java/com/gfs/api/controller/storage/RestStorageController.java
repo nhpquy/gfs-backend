@@ -1,6 +1,6 @@
 package com.gfs.api.controller.storage;
 
-import com.gfs.api.annotation.ApiRestController;
+import com.gfs.api.annotation.ApiV1RestController;
 import com.gfs.domain.constant.SwaggerTag;
 import com.gfs.domain.enums.AccountProfile;
 import com.gfs.domain.model.CurrentAccountLogin;
@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Api(tags = SwaggerTag.storage)
-@ApiRestController(value = "/storage")
+@ApiV1RestController(value = "/storage")
 public class RestStorageController {
 
     @Autowired

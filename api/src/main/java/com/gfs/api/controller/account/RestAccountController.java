@@ -1,6 +1,6 @@
 package com.gfs.api.controller.account;
 
-import com.gfs.api.annotation.ApiRestController;
+import com.gfs.api.annotation.ApiV1RestController;
 import com.gfs.domain.constant.SwaggerTag;
 import com.gfs.domain.document.StudentAccount;
 import com.gfs.domain.enums.AccountProfile;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.servlet.http.HttpServletRequest;
 
-@ApiRestController(value = "/account")
+@ApiV1RestController(value = "/account")
 @Api(tags = SwaggerTag.account)
 public class RestAccountController {
 

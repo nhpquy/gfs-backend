@@ -1,6 +1,6 @@
 package com.gfs.api.controller.tutor;
 
-import com.gfs.api.annotation.ApiRestController;
+import com.gfs.api.annotation.ApiV1RestController;
 import com.gfs.domain.constant.SwaggerTag;
 import com.gfs.domain.enums.AccountProfile;
 import com.gfs.domain.enums.ArticleStatus;
@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Api(tags = SwaggerTag.article_management)
-@ApiRestController(value = "/tutor/article")
+@ApiV1RestController(value = "/tutor/article")
 public class RestTutorArticleController {
 
     @Autowired

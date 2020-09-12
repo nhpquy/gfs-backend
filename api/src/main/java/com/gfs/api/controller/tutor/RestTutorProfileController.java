@@ -1,6 +1,6 @@
 package com.gfs.api.controller.tutor;
 
-import com.gfs.api.annotation.ApiRestController;
+import com.gfs.api.annotation.ApiV1RestController;
 import com.gfs.domain.constant.SwaggerTag;
 import com.gfs.domain.enums.AccountProfile;
 import com.gfs.domain.model.CurrentTutorLogin;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @Api(tags = SwaggerTag.tutor)
-@ApiRestController(value = "/tutor/profile")
+@ApiV1RestController(value = "/tutor/profile")
 public class RestTutorProfileController {
     @Autowired
     TutorAccountService tutorAccountService;

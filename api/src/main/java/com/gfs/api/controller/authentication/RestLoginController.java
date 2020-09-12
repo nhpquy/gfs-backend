@@ -1,6 +1,6 @@
 package com.gfs.api.controller.authentication;
 
-import com.gfs.api.annotation.ApiRestController;
+import com.gfs.api.annotation.ApiV1RestController;
 import com.gfs.domain.constant.SwaggerTag;
 import com.gfs.domain.enums.AccountProfile;
 import com.gfs.domain.request.AccountLoginRequest;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import javax.servlet.http.HttpServletRequest;
 
 @Api(tags = SwaggerTag.login)
-@ApiRestController(value = "/login")
+@ApiV1RestController(value = "/login")
 public class RestLoginController {
 
     @Autowired

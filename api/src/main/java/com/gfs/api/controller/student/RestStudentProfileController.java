@@ -1,6 +1,6 @@
 package com.gfs.api.controller.student;
 
-import com.gfs.api.annotation.ApiRestController;
+import com.gfs.api.annotation.ApiV1RestController;
 import com.gfs.domain.constant.SwaggerTag;
 import com.gfs.domain.enums.AccountProfile;
 import com.gfs.domain.model.CurrentStudentLogin;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import javax.servlet.http.HttpServletRequest;
 
 @Api(tags = SwaggerTag.student)
-@ApiRestController(value = "/student/profile")
+@ApiV1RestController(value = "/student/profile")
 public class RestStudentProfileController {
     @Autowired
     StudentAccountService studentAccountService;

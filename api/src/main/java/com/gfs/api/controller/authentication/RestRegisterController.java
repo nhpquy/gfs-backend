@@ -1,6 +1,6 @@
 package com.gfs.api.controller.authentication;
 
-import com.gfs.api.annotation.ApiRestController;
+import com.gfs.api.annotation.ApiV1RestController;
 import com.gfs.domain.constant.SwaggerTag;
 import com.gfs.domain.request.RegisterAccountRequest;
 import com.gfs.domain.response.AccountLoginResponse;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import javax.servlet.http.HttpServletRequest;
 
-@ApiRestController(value = "/register")
+@ApiV1RestController(value = "/register")
 @Api(tags = SwaggerTag.registration)
 public class RestRegisterController {
 
