@@ -39,6 +39,7 @@ public class SwaggerConfig {
                         new Tag(SwaggerTag.storage, "APIs for managing files"),
                         new Tag(SwaggerTag.article_management, "APIs for managing articles of Tutor"),
                         new Tag(SwaggerTag.organization, "APIs for managing organization of Tutor"),
+                        new Tag(SwaggerTag.bwf_wallet, "APIs for managing Beowulf wallet of organization"),
                         new Tag(SwaggerTag.up, "APIs for verifying deployment")
                 )
                 .apiInfo(swaggerApiInfo())

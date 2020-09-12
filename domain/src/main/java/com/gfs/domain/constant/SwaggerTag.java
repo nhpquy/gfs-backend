@@ -10,6 +10,7 @@ public class SwaggerTag {
     public static final String tutor = "Tutor profile Management";
     public static final String student = "Student profile Management";
     public static final String storage = "File Management";
-    public static final String organization = "Tutor's organization Management";
-    public static final String article_management = "Tutor's articles Management";
+    public static final String organization = "Tutor's Organization Management";
+    public static final String article_management = "Tutor's Articles Management";
+    public static final String bwf_wallet = "Organization's Beowulf Wallet Management";
 }
